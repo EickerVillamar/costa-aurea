@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css">
 <style>
 :root{
   --pri:#1B3A5C;--oro:#C9A84C;--oro2:#E8C96B;--crema:#F5F0E8;--arena:#D4B896;
@@ -360,9 +361,13 @@ ul{list-style:none}
 .exp-super{font-family:var(--fs);font-size:.82rem;letter-spacing:.42em;color:var(--oro);text-transform:uppercase;display:block;margin-bottom:.6rem}
 .exp-main-t{font-family:var(--ft);font-size:clamp(2.5rem,5vw,4rem);font-weight:700;color:var(--blanco);line-height:1.1;position:relative;display:inline-block}
 .exp-main-t em{font-style:italic;color:var(--oro2)}
-.exp-wave{display:block;width:100%;margin-top:.5rem}
-.exp-wave path{stroke-dasharray:300;stroke-dashoffset:300;animation:dw 1.8s ease 0.5s forwards}
-@keyframes dw{to{stroke-dashoffset:0}}
+
+/* ── INFINITE WAVE ── */
+.exp-waves-wrap{position:relative;width:340px;max-width:80%;height:28px;margin:.8rem auto 0;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent)}
+.exp-waves-inner{display:flex;width:200%;animation:waveInfinite 4s linear infinite}
+.exp-waves-inner svg{width:50%;flex-shrink:0;height:28px}
+@keyframes waveInfinite{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
 .qt{text-align:center;margin:2.5rem 0 4rem}
 .qt blockquote{font-family:var(--fs);font-size:clamp(1.3rem,3vw,2rem);font-style:italic;color:var(--oro2);position:relative;display:inline-block;padding:0 2.5rem}
 .qt blockquote::before,.qt blockquote::after{font-family:var(--ft);font-size:6rem;color:rgba(201,168,76,.18);position:absolute;line-height:1}
@@ -378,15 +383,47 @@ ul{list-style:none}
 .dif p{margin:0}
 .dif strong{display:block;color:var(--oro2);margin-bottom:.18rem}
 
-/* GALLERY 3D tilt */
-.gal{display:grid;grid-template-columns:2fr 1fr 1fr;gap:1rem;height:380px}
-.gi{position:relative;overflow:hidden;cursor:pointer;transform-style:preserve-3d;transition:transform .35s ease,box-shadow .35s ease}
-.gi img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;pointer-events:none}
-.gi:hover img{transform:scale(1.06)}
-.gi-ov{position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.75),rgba(27,58,92,.6));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;opacity:0;transition:var(--tr)}
-.gi:hover .gi-ov{opacity:1}
-.gi-ov i{font-size:1.8rem;color:var(--blanco)}
-.gi-ov span{font-family:var(--fs);font-size:.78rem;letter-spacing:.2em;color:var(--blanco);text-transform:uppercase}
+/* ── U-SHAPE TITLE ── */
+.ec-u-title{display:flex;align-items:flex-end;justify-content:center;gap:1.2rem;margin-bottom:2rem;padding-bottom:1.2rem;border-bottom:1px solid rgba(201,168,76,.2)}
+.ec-u-col{display:flex;flex-direction:column;gap:.1rem}
+.ec-u-left{align-items:flex-end;text-align:right}
+.ec-u-right{align-items:flex-start;text-align:left}
+.ec-u-word{font-family:var(--ft);font-size:1.35rem;color:var(--oro);font-weight:600;line-height:1.2;display:block}
+.ec-u-word:first-child{font-size:1rem;font-weight:400;color:var(--oro2);opacity:.85}
+.ec-u-icon{width:50px;height:50px;border:2px solid var(--oro);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--oro);font-size:1.1rem;flex-shrink:0;position:relative;animation:uPulse 3s ease-in-out infinite}
+.ec-u-icon::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(201,168,76,.25);animation:uRing 3s ease-in-out infinite}
+@keyframes uPulse{0%,100%{box-shadow:0 0 0 rgba(201,168,76,0)}50%{box-shadow:0 0 20px rgba(201,168,76,.3)}}
+@keyframes uRing{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.15);opacity:0}}
+
+/* ── VISUAL BLOCKS ── */
+.ec-vblocks{display:flex;flex-direction:column;gap:1.2rem}
+.ec-vblock{display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.2rem;background:rgba(201,168,76,.06);border-radius:4px;border-left:2px solid rgba(201,168,76,.35);transition:var(--tr)}
+.ec-vblock:hover{background:rgba(201,168,76,.12);border-left-color:var(--oro);transform:translateX(4px)}
+.ec-vblock-icon{width:38px;height:38px;background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(201,168,76,.08));border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--oro);font-size:.85rem}
+.ec-vblock p{font-size:.88rem;line-height:1.8;color:rgba(255,255,255,.78);margin:0}
+.ec-vblock p strong{color:var(--oro2)}
+
+/* ── EXPERIENCE CAROUSEL ── */
+.exp-carousel{position:relative;margin-top:1rem;overflow:hidden;border-radius:4px}
+.exp-car-viewport{overflow:hidden;position:relative}
+.exp-car-track{display:flex;transition:transform .6s cubic-bezier(.25,.46,.45,.94);will-change:transform}
+.exp-slide{min-width:33.333%;position:relative;overflow:hidden;cursor:pointer;height:340px}
+.exp-slide img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.exp-slide:hover img{transform:scale(1.08)}
+.exp-slide-ov{position:absolute;inset:0;background:linear-gradient(0deg,rgba(13,31,48,.85) 0%,rgba(13,31,48,.15) 40%,transparent 70%);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:1.5rem;transition:var(--tr)}
+.exp-slide:hover .exp-slide-ov{background:linear-gradient(0deg,rgba(13,31,48,.92) 0%,rgba(13,31,48,.3) 50%,rgba(201,168,76,.08) 100%)}
+.exp-slide-caption{text-align:center}
+.exp-slide-caption i{font-size:1.4rem;color:var(--oro);margin-bottom:.5rem;display:block;transition:transform .4s ease}
+.exp-slide:hover .exp-slide-caption i{transform:translateY(-4px) scale(1.15)}
+.exp-slide-caption span{font-family:var(--ft);font-size:.95rem;color:var(--blanco);letter-spacing:.08em;display:block}
+.exp-slide-caption small{font-family:var(--fb);font-size:.75rem;color:rgba(255,255,255,.55);margin-top:.25rem;display:block}
+.exp-car-btn{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;background:rgba(13,31,48,.75);border:1.5px solid rgba(201,168,76,.5);color:var(--oro);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;transition:var(--tr);backdrop-filter:blur(6px);font-size:.9rem}
+.exp-car-btn:hover{background:var(--oro);color:var(--osc);border-color:var(--oro);transform:translateY(-50%) scale(1.08)}
+.exp-car-prev{left:1rem}
+.exp-car-next{right:1rem}
+.exp-car-dots{display:flex;justify-content:center;gap:.6rem;margin-top:1.2rem}
+.exp-car-dot{width:10px;height:10px;border-radius:50%;background:rgba(201,168,76,.25);border:1px solid rgba(201,168,76,.4);cursor:pointer;transition:var(--tr)}
+.exp-car-dot.on{background:var(--oro);box-shadow:0 0 12px rgba(201,168,76,.5);transform:scale(1.15)}
 
 /* LIGHTBOX */
 #lb{position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:99000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .35s}
@@ -401,7 +438,8 @@ ul{list-style:none}
 .ubic-w{max-width:1200px;margin:0 auto;padding:0 2rem}
 .ubic-g{display:grid;grid-template-columns:1.5fr 1fr;gap:3rem;align-items:start}
 #map{height:460px;border:2px solid rgba(201,168,76,.5);filter:saturate(.8) sepia(.08)}
-.u-info{background:var(--blanco);padding:2.2rem;box-shadow:var(--sh);border-top:3px solid var(--oro)}
+.u-info{background:var(--blanco);padding:2.5rem;box-shadow:var(--sh);border-top:3px solid var(--oro);position:relative;animation:uFloat 6s ease-in-out infinite}
+@keyframes uFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .u-info h3{font-family:var(--ft);font-size:1.5rem;color:var(--pri);margin-bottom:1.5rem}
 .u-row{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.4rem}
 .u-row i{color:var(--oro);font-size:1rem;width:18px;margin-top:.22rem;flex-shrink:0}
@@ -430,27 +468,48 @@ ul{list-style:none}
 .c360:hover{transform:rotate(90deg);background:var(--oro2)}
 
 /* ── RESERVAS ── */
-#res{padding:7rem 0;background:linear-gradient(140deg,var(--pri) 0%,var(--teal) 100%);position:relative;overflow:hidden}
-#res::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.025) 1px,transparent 1px);background-size:22px 22px}
-.res-w{max-width:740px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
-.res-form{background:rgba(255,255,255,.07);border:1px solid rgba(201,168,76,.3);padding:3rem;backdrop-filter:blur(18px)}
-.f-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+#res{padding:7rem 0;background:linear-gradient(140deg,var(--pri) 0%,var(--osc) 100%);position:relative;overflow:hidden}
+#res::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.03) 1px,transparent 1px);background-size:22px 22px}
+.res-w{max-width:850px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+.res-dec{position:absolute;color:rgba(201,168,76,.15);z-index:0;animation:resFloat 8s ease-in-out infinite;pointer-events:none}
+.res-dec-1{top:15%;left:-3%;font-size:4rem;animation-delay:1s}
+.res-dec-2{bottom:20%;right:-4%;font-size:5rem;animation-delay:2s}
+.res-dec-3{top:60%;left:-5%;font-size:3.5rem;animation-delay:3s}
+@keyframes resFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-20px) rotate(10deg)}}
+.res-form{background:linear-gradient(145deg,rgba(201,168,76,.08) 0%,rgba(13,31,48,.7) 50%,rgba(201,168,76,.04) 100%);border:1px solid rgba(201,168,76,.3);padding:3.5rem;backdrop-filter:blur(25px);border-radius:16px;box-shadow:0 30px 60px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.1);position:relative;overflow:hidden;animation:formGlow 4s ease-in-out infinite alternate}
+@keyframes formGlow{0%{box-shadow:0 30px 60px rgba(0,0,0,.4),0 0 20px rgba(201,168,76,.08),inset 0 1px 0 rgba(255,255,255,.1);border-color:rgba(201,168,76,.25);transform:translateY(0)}100%{box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 45px rgba(201,168,76,.25),inset 0 1px 0 rgba(255,255,255,.2);border-color:rgba(201,168,76,.6);transform:translateY(-6px)}}
+.res-form::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--oro),var(--oro2),var(--oro),transparent);opacity:.8}
+.res-form::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent 0deg,rgba(201,168,76,.12) 30deg,transparent 60deg);animation:rfRot 12s linear infinite;pointer-events:none}
+@keyframes rfRot{to{transform:rotate(360deg)}}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem}
 /* Input with icon */
-.fi{position:relative;margin-bottom:1.3rem}
-.fi label{display:block;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--oro);margin-bottom:.4rem}
-.fi .fi-ico{position:absolute;left:1rem;bottom:0;transform:translateY(-50%);color:var(--oro);font-size:.82rem;pointer-events:none;transition:var(--tr)}
-.fi input,.fi select,.fi textarea{width:100%;padding:.85rem 1rem .85rem 2.8rem;background:rgba(255,255,255,.06);border:0;border-bottom:1.5px solid rgba(201,168,76,.3);color:var(--blanco);font-family:var(--fb);font-size:.88rem;outline:none;transition:var(--tr)}
-.fi textarea{padding:.85rem 1rem .85rem 2.8rem;resize:vertical;min-height:95px}
-.fi input::placeholder,.fi textarea::placeholder{color:rgba(255,255,255,.35)}
-.fi input:focus,.fi select:focus,.fi textarea:focus{border-bottom-color:var(--oro);background:rgba(255,255,255,.1)}
-.fi input:focus~.fi-ico,.fi select:focus~.fi-ico,.fi textarea:focus~.fi-ico{color:var(--oro2)}
-.fi select option{background:var(--pri);color:var(--blanco)}
-.fi-noico input,.fi-noico select,.fi-noico textarea{padding:.85rem 1rem}
-.f-btn{width:100%;padding:1rem;background:var(--oro);color:var(--osc);border:none;font-family:var(--fb);font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:var(--tr);position:relative;overflow:hidden;margin-top:.8rem;min-height:52px;display:flex;align-items:center;justify-content:center;gap:.6rem}
-.f-btn:hover{background:var(--oro2);transform:translateY(-2px);box-shadow:var(--sho)}
-.f-note{text-align:center;margin-top:1.3rem;font-size:.8rem;color:rgba(255,255,255,.5)}
-.f-note i{color:#25D366;margin-right:.3rem}
-#fok{display:none;text-align:center;padding:2.5rem 1rem}
+.fi{position:relative;margin-bottom:1.8rem;z-index:2}
+.fi label{display:flex;align-items:center;gap:.5rem;font-size:.78rem;letter-spacing:.25em;text-transform:uppercase;color:var(--oro);margin-bottom:.8rem;font-weight:700}
+.fi .fi-ico{position:absolute;left:1.2rem;bottom:1.6rem;transform:translateY(50%);color:var(--oro);font-size:1.1rem;pointer-events:none;transition:var(--tr)}
+.fi textarea~.fi-ico{bottom:auto;top:2.7rem;transform:none}
+.fi input,.fi select,.fi textarea{width:100%;padding:1.1rem 1.1rem 1.1rem 3.2rem;background:rgba(0,0,0,.25);border:1px solid rgba(201,168,76,.25);border-radius:8px;color:var(--blanco);font-family:var(--fb);font-size:.95rem;outline:none;transition:all .4s cubic-bezier(.25,.46,.45,.94);box-shadow:inset 0 2px 5px rgba(0,0,0,.2)}
+.fi textarea{padding:1.1rem 1.1rem 1.1rem 3.2rem;resize:vertical;min-height:120px}
+.fi input::placeholder,.fi textarea::placeholder{color:rgba(255,255,255,.4)}
+.fi input:focus,.fi select:focus,.fi textarea:focus{border-color:var(--oro2);background:rgba(13,31,48,.8);box-shadow:0 0 25px rgba(201,168,76,.2),inset 0 2px 5px rgba(0,0,0,.4);transform:translateY(-3px)}
+.fi input:focus~.fi-ico,.fi select:focus~.fi-ico{color:var(--oro2);transform:translateY(calc(50% - 3px)) scale(1.15)}
+.fi textarea:focus~.fi-ico{color:var(--oro2);transform:translateY(-3px) scale(1.15)}
+.fi::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:0;height:2px;background:linear-gradient(90deg,transparent,var(--oro2),transparent);transition:width .4s ease;pointer-events:none;border-radius:2px}
+.fi:focus-within::after{width:90%}
+.fi select option{background:var(--osc);color:var(--blanco);padding:10px}
+.fi-noico input,.fi-noico select,.fi-noico textarea{padding:.95rem 1.1rem}
+.f-btn{width:100%;padding:1.2rem;background:linear-gradient(135deg,var(--oro) 0%,var(--oro2) 100%);color:var(--osc);border:none;border-radius:8px;font-family:var(--fb);font-size:.95rem;letter-spacing:.25em;text-transform:uppercase;font-weight:800;cursor:pointer;transition:var(--tr);position:relative;overflow:hidden;margin-top:1.5rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 10px 25px rgba(201,168,76,.3);animation:btnPulse 2.5s infinite;z-index:2}
+@keyframes btnPulse{0%{box-shadow:0 0 0 0 rgba(201,168,76,.6), 0 10px 25px rgba(201,168,76,.3)}70%{box-shadow:0 0 0 15px rgba(201,168,76,0), 0 15px 35px rgba(201,168,76,.4)}100%{box-shadow:0 0 0 0 rgba(201,168,76,0), 0 10px 25px rgba(201,168,76,.3)}}
+.f-btn:hover{transform:translateY(-4px) scale(1.02);background:linear-gradient(135deg,var(--oro2) 0%,var(--oro) 100%)}
+.f-note{text-align:center;margin-top:2rem;font-size:.9rem;color:rgba(255,255,255,.7);z-index:2;position:relative}
+.f-note i{color:#25D366;margin-right:.5rem;font-size:1.2rem;animation:waPulse 2s infinite}
+@keyframes waPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+#fok{display:none;text-align:center;padding:3.5rem 2rem;background:linear-gradient(145deg,rgba(13,31,48,.8),rgba(13,31,48,.4));border-radius:8px;border:1px solid rgba(201,168,76,.4);box-shadow:0 0 40px rgba(201,168,76,.15);position:relative;overflow:hidden}
+#fok::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(201,168,76,.15) 0%,transparent 60%);pointer-events:none}
+#fok i{font-size:4.5rem;color:var(--oro2);margin-bottom:1.5rem;display:inline-block;animation:fokScale .7s cubic-bezier(.175,.885,.32,1.275) both;filter:drop-shadow(0 0 15px rgba(201,168,76,.5))}
+@keyframes fokScale{0%{transform:scale(0) rotate(-45deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+#fok h3{font-family:var(--ft);font-size:2.2rem;color:var(--blanco);margin-bottom:1rem;animation:fokFadeUp .6s ease .2s both}
+#fok p{font-size:1rem;color:rgba(255,255,255,.75);line-height:1.8;animation:fokFadeUp .6s ease .4s both}
+@keyframes fokFadeUp{0%{transform:translateY(25px);opacity:0}100%{transform:translateY(0);opacity:1}}
 #fok i{font-size:3.5rem;color:var(--oro);margin-bottom:1rem;display:block}
 #fok h3{font-family:var(--ft);font-size:1.5rem;color:var(--blanco);margin-bottom:.5rem}
 #fok p{font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.7}
@@ -514,9 +573,7 @@ footer{background:var(--osc);padding:3.5rem 0 1.5rem}
   .nos-stat{padding:0 1.5rem}
   .mpanel.on{grid-template-columns:repeat(2,1fr)}
   .cont-g{grid-template-columns:repeat(2,1fr)}
-  .gal{grid-template-columns:1fr 1fr;height:auto}
-  .gal .gi:first-child{grid-column:span 2;height:240px}
-  .gal .gi:not(:first-child){height:200px}
+  .exp-slide{min-width:50%;height:280px}
   .ubic-g{grid-template-columns:1fr}
   .bk{grid-template-columns:1fr;max-height:80vh}
   .bk-left{min-height:250px}
@@ -540,8 +597,11 @@ footer{background:var(--osc);padding:3.5rem 0 1.5rem}
   .exp-cols{grid-template-columns:1fr}
   .resp-g{grid-template-columns:1fr}
   .cont-g{grid-template-columns:repeat(2,1fr)}
-  .gal{grid-template-columns:1fr;height:auto}
-  .gal .gi{height:220px!important;grid-column:span 1!important}
+  .exp-slide{min-width:100%;height:240px}
+  .ec-u-title{gap:.8rem}
+  .ec-u-word{font-size:1.1rem!important}
+  .ec-u-word:first-child{font-size:.88rem!important}
+  .ec-u-icon{width:40px;height:40px;font-size:.9rem}
   .res-form{padding:2rem 1.5rem}
   .exp-bg{background-attachment:scroll}
   body{cursor:auto}
@@ -599,11 +659,9 @@ footer{background:var(--osc);padding:3.5rem 0 1.5rem}
 <!-- 360 MODAL -->
 <div id="m360">
   <div class="b360">
-    <div class="bdg360"><i class="fas fa-street-view"></i> Vista 360°</div>
-    <div class="pan" id="panWrap">
-      <img src="imagenes/Imagen2.jpg" alt="Vista panorámica Costa Áurea" id="pan-img">
-    </div>
-    <div class="h360"><i class="fas fa-hand-pointer"></i> Arrastra para explorar</div>
+    <div class="bdg360"><i class="fas fa-street-view"></i> Vista 360° Inmersiva</div>
+    <div id="panorama" style="width:100%;height:100%;"></div>
+    <div class="h360" style="pointer-events:none;"><i class="fas fa-hand-pointer"></i> Arrastra para explorar en 360°</div>
     <div class="t360">Costa Áurea · Puerto Santa Ana</div>
     <button class="c360" id="c360"><i class="fas fa-times"></i></button>
   </div>
@@ -891,6 +949,10 @@ footer{background:var(--osc);padding:3.5rem 0 1.5rem}
         <div class="mc-img"><img src="menu/Pizza Mediterránea.png" alt="Pizza Mediterránea"><div class="mc-ov"><i class="fas fa-book-open"></i><span>Ver detalle</span></div><span class="mc-badge">Nuevo</span></div>
         <div class="mc-body"><h3 class="mc-name">Pizza Mediterránea</h3><p class="mc-desc">Masa madre con mozzarella di bufala, aceitunas, alcachofas y rúcula.</p><span class="mc-price">$17.00</span></div>
       </div>
+      <div class="mc" data-img="imagenes/exp_cuisine.png" data-name="Arte Culinario" data-cat="Plato Principal" data-price="$22.00" data-badge="Especial" data-desc="Nuestra obra de arte culinario, una exquisita fusión de sabores mediterráneos elaborada con técnicas de vanguardia y los ingredientes más frescos de la temporada." data-note="Pregunte a su mesero por la inspiración del día.">
+        <div class="mc-img"><img src="imagenes/exp_cuisine.png" alt="Arte Culinario"><div class="mc-ov"><i class="fas fa-book-open"></i><span>Ver detalle</span></div><span class="mc-badge">Especial</span></div>
+        <div class="mc-body"><h3 class="mc-name">Arte Culinario</h3><p class="mc-desc">Fusión de sabores mediterráneos elaborada con técnicas de vanguardia.</p><span class="mc-price">$22.00</span></div>
+      </div>
     </div>
 
     <!-- POSTRES -->
@@ -943,9 +1005,18 @@ footer{background:var(--osc);padding:3.5rem 0 1.5rem}
     <div class="exp-t-wrap" data-aos="fade-up">
       <span class="exp-super">✦ Vive el Mediterráneo ✦</span>
       <div class="exp-main-t">La <em>Experiencia</em></div>
-      <svg class="exp-wave" viewBox="0 0 400 20" fill="none" xmlns="http://www.w3.org/2000/svg" height="20">
-        <path id="wavePath" d="M10,10 C60,-5 100,25 160,10 C220,-5 270,25 330,10 C360,2 380,12 390,10" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
-      </svg>
+      
+      <!-- INFINITE WAVES -->
+      <div class="exp-waves-wrap">
+        <div class="exp-waves-inner">
+          <svg viewBox="0 0 400 20" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,10 C50,0 100,20 150,10 C200,0 250,20 300,10 C350,0 400,20 400,10" stroke="#C9A84C" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+          </svg>
+          <svg viewBox="0 0 400 20" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,10 C50,0 100,20 150,10 C200,0 250,20 300,10 C350,0 400,20 400,10" stroke="#C9A84C" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+          </svg>
+        </div>
+      </div>
     </div>
 
     <div class="qt" data-aos="fade-up" data-aos-delay="100">
@@ -954,9 +1025,30 @@ footer{background:var(--osc);padding:3.5rem 0 1.5rem}
 
     <div class="exp-cols">
       <div class="ec" data-aos="fade-right" data-aos-delay="150">
-        <h3><i class="fas fa-star" style="margin-right:.5rem;font-size:.9rem"></i>¿Qué vivirá el cliente?</h3>
-        <p>Desde el momento en que ingrese, será recibido con un ambiente cálido y acogedor, música suave y decoración inspirada en los paisajes costeros del Mediterráneo.</p>
-        <p>Cada plato resaltará la frescura del mar y la tradición mediterránea, acompañado de una presentación elegante y un servicio cercano que lo hará sentir parte de nuestra cultura.</p>
+        <!-- U-SHAPE TITLE -->
+        <div class="ec-u-title">
+          <div class="ec-u-col ec-u-left">
+            <span class="ec-u-word">La Auténtica</span>
+            <span class="ec-u-word">Esencia del</span>
+          </div>
+          <div class="ec-u-icon"><i class="fas fa-anchor"></i></div>
+          <div class="ec-u-col ec-u-right">
+            <span class="ec-u-word">Mediterráneo</span>
+            <span class="ec-u-word">en su Mesa</span>
+          </div>
+        </div>
+        
+        <!-- VISUAL BLOCKS -->
+        <div class="ec-vblocks">
+          <div class="ec-vblock">
+            <div class="ec-vblock-icon"><i class="fas fa-wind"></i></div>
+            <p><strong>Atmósfera Envolvente</strong><br>Música suave, iluminación cálida e interiorismo inspirado en las costas mediterráneas.</p>
+          </div>
+          <div class="ec-vblock">
+            <div class="ec-vblock-icon"><i class="fas fa-concierge-bell"></i></div>
+            <p><strong>Servicio de Excelencia</strong><br>Atención personalizada, recomendaciones del sommelier y detalles que marcan la diferencia.</p>
+          </div>
+        </div>
       </div>
       <div class="ec" data-aos="fade-left" data-aos-delay="200">
         <h3><i class="fas fa-gem" style="margin-right:.5rem;font-size:.9rem"></i>¿Qué nos hace diferentes?</h3>
@@ -967,20 +1059,82 @@ footer{background:var(--osc);padding:3.5rem 0 1.5rem}
       </div>
     </div>
 
-    <!-- GALLERY with tilt -->
-    <div class="gal" data-aos="fade-up" data-aos-delay="100">
-      <div class="gi" onclick="openLb('imagenes/Imagen2.jpg')">
-        <img src="imagenes/Imagen2.jpg" alt="Terraza Costa Áurea">
-        <div class="gi-ov"><i class="fas fa-expand-alt"></i><span>Nuestra Terraza</span></div>
+    <!-- EXPERIENCE CAROUSEL -->
+    <div class="exp-carousel" data-aos="fade-up" data-aos-delay="100">
+      <div class="exp-car-viewport">
+        <div class="exp-car-track" id="expTrack">
+          <!-- Slide 1 -->
+          <div class="exp-slide" onclick="openLb('imagenes/exp_ambiance.png')">
+            <img src="imagenes/exp_ambiance.png" alt="Ambiente Íntimo">
+            <div class="exp-slide-ov">
+              <div class="exp-slide-caption">
+                <i class="fas fa-wine-glass-alt"></i>
+                <span>Ambiente Íntimo</span>
+                <small>Elegancia en cada rincón</small>
+              </div>
+            </div>
+          </div>
+          <!-- Slide 2 -->
+          <div class="exp-slide" onclick="openLb('imagenes/exp_terrace.png')">
+            <img src="imagenes/exp_terrace.png" alt="Nuestra Terraza">
+            <div class="exp-slide-ov">
+              <div class="exp-slide-caption">
+                <i class="fas fa-sun"></i>
+                <span>Nuestra Terraza</span>
+                <small>Vista panorámica</small>
+              </div>
+            </div>
+          </div>
+          <!-- Slide 3 -->
+          <div class="exp-slide" onclick="openLb('imagenes/Imagen1.jpg')">
+            <img src="imagenes/Imagen1.jpg" alt="Detalles Únicos">
+            <div class="exp-slide-ov">
+              <div class="exp-slide-caption">
+                <i class="fas fa-gem"></i>
+                <span>Detalles Únicos</span>
+                <small>Magia en cada aspecto</small>
+              </div>
+            </div>
+          </div>
+          <!-- Slide 4 -->
+          <div class="exp-slide" onclick="openLb('imagenes/exp_sunset.png')">
+            <img src="imagenes/exp_sunset.png" alt="Atardeceres Únicos">
+            <div class="exp-slide-ov">
+              <div class="exp-slide-caption">
+                <i class="fas fa-camera"></i>
+                <span>Atardeceres Únicos</span>
+                <small>Momentos inolvidables</small>
+              </div>
+            </div>
+          </div>
+          <!-- Slide 5 -->
+          <div class="exp-slide" onclick="openLb('imagenes/Imagen4.jpg')">
+            <img src="imagenes/Imagen4.jpg" alt="Celebraciones">
+            <div class="exp-slide-ov">
+              <div class="exp-slide-caption">
+                <i class="fas fa-glass-cheers"></i>
+                <span>Celebraciones</span>
+                <small>Momentos para compartir</small>
+              </div>
+            </div>
+          </div>
+          <!-- Slide 6 -->
+          <div class="exp-slide" onclick="openLb('imagenes/Imagen5.jpg')">
+            <img src="imagenes/Imagen5.jpg" alt="El Encanto">
+            <div class="exp-slide-ov">
+              <div class="exp-slide-caption">
+                <i class="fas fa-star"></i>
+                <span>El Encanto</span>
+                <small>La belleza de lo simple</small>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="gi" onclick="openLb('imagenes/Imagen4.jpg')">
-        <img src="imagenes/Imagen4.jpg" alt="Exterior Costa Áurea">
-        <div class="gi-ov"><i class="fas fa-expand-alt"></i><span>Nuestro Local</span></div>
-      </div>
-      <div class="gi" onclick="openLb('imagenes/Imagen5.jpg')">
-        <img src="imagenes/Imagen5.jpg" alt="Fachada Costa Áurea">
-        <div class="gi-ov"><i class="fas fa-expand-alt"></i><span>La Fachada</span></div>
-      </div>
+      <!-- Controls -->
+      <div class="exp-car-btn exp-car-prev" id="expPrev"><i class="fas fa-chevron-left"></i></div>
+      <div class="exp-car-btn exp-car-next" id="expNext"><i class="fas fa-chevron-right"></i></div>
+      <div class="exp-car-dots" id="expDots"></div>
     </div>
   </div>
 </section>
@@ -1001,10 +1155,6 @@ footer{background:var(--osc);padding:3.5rem 0 1.5rem}
         <div class="u-row"><i class="fas fa-info-circle"></i><p><strong>Referencia</strong>Zona turística de alto flujo, cercana a hoteles y entretenimiento. Fácil acceso vehicular y peatonal con vista al río Guayas.</p></div>
         <div class="u-row"><i class="fas fa-clock"></i><p><strong>Horario</strong>Lun – Jue: 12:00 – 22:00<br>Vie – Sáb: 12:00 – 23:00<br>Domingo: 12:00 – 21:00</p></div>
         <div class="u-row"><i class="fas fa-parking"></i><p><strong>Estacionamiento</strong>Disponible en el complejo Puerto Santa Ana</p></div>
-        <div class="u-360-hint">
-          <i class="fas fa-street-view"></i>
-          <p><strong>Vista 360°</strong><br>Haz clic en el marcador del mapa para explorar el restaurante en vista inmersiva.</p>
-        </div>
       </div>
     </div>
   </div>
@@ -1013,36 +1163,45 @@ footer{background:var(--osc);padding:3.5rem 0 1.5rem}
 <!-- ══════════════ RESERVAS ══════════════ -->
 <section id="res">
   <div class="res-w">
+    <!-- Decoraciones Flotantes -->
+    <div class="res-dec res-dec-1"><i class="fas fa-star"></i></div>
+    <div class="res-dec res-dec-2"><i class="fas fa-wine-glass-alt"></i></div>
+    <div class="res-dec res-dec-3"><i class="fas fa-utensils"></i></div>
+
     <div class="sec-hd" data-aos="fade-up">
       <span class="sec-badge" style="color:var(--oro2)">✦ Reserve su Mesa ✦</span>
       <h2 class="sec-t lt">Reservaciones</h2>
       <div class="orn"><span class="orn-l" style="background:rgba(201,168,76,.4)"></span><i class="fas fa-calendar-check"></i><span class="orn-l" style="background:rgba(201,168,76,.4)"></span></div>
     </div>
     <div class="res-form" data-aos="fade-up" data-aos-delay="100">
-      <form id="rf">
+      <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+      <form id="rf" action="https://formsubmit.co/fernandaariasa2016@gmail.com" method="POST" target="hidden_iframe">
+        <input type="hidden" name="_subject" value="🌟 Nueva Reserva VIP Costa Áurea">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
         <div class="f-row">
-          <div class="fi"><label>Nombre Completo</label><input type="text" placeholder="Su nombre completo" required><i class="fas fa-user fi-ico"></i></div>
-          <div class="fi"><label>Correo Electrónico</label><input type="email" placeholder="correo@ejemplo.com" required><i class="fas fa-envelope fi-ico"></i></div>
+          <div class="fi"><label>Nombre Completo</label><input type="text" name="Nombre" placeholder="Su nombre completo" required><i class="fas fa-user fi-ico"></i></div>
+          <div class="fi"><label>Correo Electrónico</label><input type="email" name="Correo" placeholder="correo@ejemplo.com" required><i class="fas fa-envelope fi-ico"></i></div>
         </div>
         <div class="f-row">
-          <div class="fi"><label>Teléfono / WhatsApp</label><input type="tel" placeholder="+593 99 999 9999" required><i class="fas fa-phone fi-ico"></i></div>
-          <div class="fi"><label>Fecha de Reserva</label><input type="date" id="fdate" required><i class="fas fa-calendar fi-ico"></i></div>
+          <div class="fi"><label>Teléfono / WhatsApp</label><input type="tel" name="Teléfono" placeholder="+593 99 999 9999" required><i class="fas fa-phone fi-ico"></i></div>
+          <div class="fi" style="cursor:pointer" onclick="document.getElementById('fdate').showPicker()"><label>Fecha de Reserva</label><input type="date" name="Fecha" id="fdate" required style="cursor:pointer"><i class="fas fa-calendar fi-ico"></i></div>
         </div>
         <div class="f-row">
           <div class="fi"><label>Hora</label>
-            <select required><option value="">Seleccione hora</option><option>12:00</option><option>13:00</option><option>14:00</option><option>19:00</option><option>20:00</option><option>21:00</option><option>22:00</option></select>
+            <select name="Hora" required><option value="">Seleccione hora</option><option>12:00</option><option>13:00</option><option>14:00</option><option>19:00</option><option>20:00</option><option>21:00</option><option>22:00</option></select>
             <i class="fas fa-clock fi-ico"></i>
           </div>
           <div class="fi"><label>Número de Personas</label>
-            <select required><option value="">Seleccione</option><option>1 persona</option><option>2 personas</option><option>3 personas</option><option>4 personas</option><option>5 personas</option><option>6 personas</option><option>7 a 10 personas</option><option>Más de 10</option></select>
+            <select name="Personas" required><option value="">Seleccione</option><option>1 persona</option><option>2 persona</option><option>3 personas</option><option>4 personas</option><option>5 personas</option><option>6 personas</option><option>7 a 10 personas</option><option>Más de 10</option></select>
             <i class="fas fa-users fi-ico"></i>
           </div>
         </div>
         <div class="fi"><label>Ocasión Especial (Opcional)</label>
-          <select><option value="">Sin ocasión especial</option><option>Cumpleaños</option><option>Aniversario</option><option>Reunión de negocios</option><option>Propuesta de matrimonio</option><option>Otro</option></select>
+          <select name="Ocasión Especial"><option value="">Sin ocasión especial</option><option>Cumpleaños</option><option>Aniversario</option><option>Reunión de negocios</option><option>Propuesta de matrimonio</option><option>Otro</option></select>
           <i class="fas fa-gift fi-ico"></i>
         </div>
-        <div class="fi"><label>Mensaje Adicional</label><textarea placeholder="Alergias, preferencias, peticiones especiales..."></textarea><i class="fas fa-comment fi-ico" style="top:2.5rem;transform:none"></i></div>
+        <div class="fi"><label>Mensaje Adicional</label><textarea name="Peticiones" placeholder="Alergias, preferencias, peticiones especiales..."></textarea><i class="fas fa-comment fi-ico"></i></div>
         <button type="submit" class="f-btn"><i class="fas fa-concierge-bell"></i>Confirmar Reserva</button>
       </form>
       <div id="fok">
@@ -1074,14 +1233,14 @@ footer{background:var(--osc);padding:3.5rem 0 1.5rem}
         <i class="fas fa-envelope ci"></i>
         <h3>Correo</h3>
         <p>Escríbenos cuando quieras</p>
-        <a href="mailto:info@costaaurea.com.ec" class="phone-link" style="font-size:.85rem">info@costaaurea.com.ec</a>
+        <a href="mailto:fernandaariasa2016@gmail.com" class="phone-link" style="font-size:.85rem">fernandaariasa2016@gmail.com</a>
       </div>
       <div class="cc" data-aos="fade-up" data-aos-delay="300">
         <i class="fas fa-share-alt ci"></i>
         <h3>Redes Sociales</h3>
         <p>Síguenos como <strong>@CostaAurea</strong></p>
         <div class="soc-r">
-          <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.instagram.com/costaaurea_ec/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
           <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
           <a href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok"><i class="fab fa-tiktok"></i></a>
         </div>
@@ -1124,7 +1283,7 @@ footer{background:var(--osc);padding:3.5rem 0 1.5rem}
         <a href="#cont">Contacto</a><a href="#resp">Compromiso Social</a>
       </nav>
       <div class="ft-soc">
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.instagram.com/costaaurea_ec/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
         <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
         <a href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
         <a href="https://wa.me/593999123456" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
@@ -1142,6 +1301,7 @@ footer{background:var(--osc);padding:3.5rem 0 1.5rem}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
 <script>
 /* ── PRELOADER ── */
 window.addEventListener('load',()=>setTimeout(()=>document.getElementById('pre').classList.add('out'),2900));
@@ -1291,47 +1451,53 @@ document.getElementById('lb').addEventListener('click',e=>{if(e.target===documen
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('lb').classList.remove('on');bmEl.classList.remove('on');document.getElementById('m360').classList.remove('on');document.body.style.overflow=''}});
 
 /* ── MAP + 360 ── */
+let viewer360 = null;
 setTimeout(()=>{
-  const map=L.map('map',{scrollWheelZoom:false}).setView([-2.1960,-79.8950],15);
+  const map=L.map('map',{scrollWheelZoom:false}).setView([-2.1855,-79.8760],16);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
   const gi=L.divIcon({className:'',html:`<div style="position:relative;width:40px;height:40px"><div style="width:40px;height:40px;background:linear-gradient(135deg,#C9A84C,#E8C96B);border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 3px 14px rgba(201,168,76,.55)"></div><i class="fas fa-utensils" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#0D1F30;font-size:13px"></i></div>`,iconSize:[40,40],iconAnchor:[20,40],popupAnchor:[0,-42]});
-  const marker=L.marker([-2.1960,-79.8950],{icon:gi}).addTo(map);
+  const marker=L.marker([-2.1855,-79.8760],{icon:gi}).addTo(map);
   marker.bindPopup('<strong style="color:#1B3A5C;font-family:serif">Costa Áurea</strong><br><small>Clic para Vista 360°</small>').openPopup();
-  marker.on('click',()=>{document.getElementById('m360').classList.add('on');document.body.style.overflow='hidden'});
+  marker.on('click',()=>{
+    document.getElementById('m360').classList.add('on');
+    document.body.style.overflow='hidden';
+    if(!viewer360) {
+      viewer360 = pannellum.viewer('panorama', {
+        "type": "equirectangular",
+        "panorama": "imagenes/panorama_360.png",
+        "autoLoad": true,
+        "autoRotate": -2,
+        "compass": false,
+        "showControls": false
+      });
+    }
+  });
 },600);
 
-/* ── 360 DRAG ── */
+/* ── 360 MODAL CLOSE ── */
 const m360=document.getElementById('m360');
-const panW=document.getElementById('panWrap');
-const panImg=document.getElementById('pan-img');
 document.getElementById('c360').addEventListener('click',()=>{m360.classList.remove('on');document.body.style.overflow=''});
 m360.addEventListener('click',e=>{if(e.target===m360){m360.classList.remove('on');document.body.style.overflow=''}});
-let dragging=false,startX=0,offsetX=0,maxOff=0;
-panW.addEventListener('mousedown',e=>{
-  dragging=true;startX=e.clientX;
-  maxOff=panImg.offsetWidth-panW.offsetWidth;
-  panImg.classList.add('dragging');panW.classList.add('gr');
-});
-window.addEventListener('mousemove',e=>{
-  if(!dragging)return;
-  const dx=e.clientX-startX;
-  const newOff=Math.max(-maxOff,Math.min(0,offsetX+dx));
-  panImg.style.transform=`translateX(${newOff}px)`;
-});
-window.addEventListener('mouseup',e=>{
-  if(!dragging)return;
-  dragging=false;panImg.classList.remove('dragging');panW.classList.remove('gr');
-  const dx=e.clientX-startX;offsetX=Math.max(-maxOff,Math.min(0,offsetX+dx));
-});
-panW.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;maxOff=panImg.offsetWidth-panW.offsetWidth;panImg.classList.add('dragging')},{passive:true});
-panW.addEventListener('touchmove',e=>{const dx=e.touches[0].clientX-startX;const n=Math.max(-maxOff,Math.min(0,offsetX+dx));panImg.style.transform=`translateX(${n}px)`},{passive:true});
-panW.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-startX;offsetX=Math.max(-maxOff,Math.min(0,offsetX+dx));panImg.classList.remove('dragging')});
 
 /* ── FORM ── */
 document.getElementById('fdate').min=new Date().toISOString().split('T')[0];
+let formSubmitted = false;
+
 document.getElementById('rf').addEventListener('submit',e=>{
-  e.preventDefault();document.getElementById('rf').style.display='none';
-  const ok=document.getElementById('fok');ok.style.display='block';ok.style.animation='pin .6s ease forwards';
+  // NO usamos preventDefault, dejamos que el formulario se envíe nativamente al iframe
+  const form = e.target;
+  const btn = form.querySelector('button[type="submit"]');
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+  btn.style.pointerEvents = 'none';
+  formSubmitted = true;
+});
+
+document.getElementById('hidden_iframe').addEventListener('load', function() {
+  if (formSubmitted) {
+      document.getElementById('rf').style.display = 'none';
+      const ok = document.getElementById('fok');
+      ok.style.display = 'block';
+  }
 });
 
 /* ── RIPPLE ── */
@@ -1350,12 +1516,61 @@ document.getElementById('btt').addEventListener('click',()=>window.scrollTo({top
 /* ── AOS ── */
 AOS.init({duration:850,easing:'ease-out-cubic',once:true,offset:75});
 
-/* ── WAVE SVG ── */
-const wavePath=document.getElementById('wavePath');
-const wObs=new IntersectionObserver(entries=>{
-  if(entries[0].isIntersecting){wavePath.style.animation='dw 1.8s ease .3s forwards';wObs.disconnect()}
-},{threshold:.5});
-if(wavePath)wObs.observe(wavePath);
+/* ── EXPERIENCE CAROUSEL ── */
+const expTrack = document.getElementById('expTrack');
+if(expTrack) {
+  const slides = document.querySelectorAll('.exp-slide');
+  const prevBtn = document.getElementById('expPrev');
+  const nextBtn = document.getElementById('expNext');
+  const dotsContainer = document.getElementById('expDots');
+  let curSlide = 0;
+  let itemsPerView = window.innerWidth <= 768 ? 1 : (window.innerWidth <= 1024 ? 2 : 3);
+  let totalSlides = slides.length;
+  
+  // Create dots
+  const numDots = Math.max(1, totalSlides - itemsPerView + 1);
+  for(let i=0; i<numDots; i++){
+    const d = document.createElement('div');
+    d.className = 'exp-car-dot' + (i===0?' on':'');
+    d.addEventListener('click', () => goToSlide(i));
+    dotsContainer.appendChild(d);
+  }
+  const dots = document.querySelectorAll('.exp-car-dot');
+
+  function updateCar() {
+    itemsPerView = window.innerWidth <= 768 ? 1 : (window.innerWidth <= 1024 ? 2 : 3);
+    const maxSlide = Math.max(0, totalSlides - itemsPerView);
+    if(curSlide > maxSlide) curSlide = maxSlide;
+    
+    // Update track
+    const slideW = 100 / itemsPerView;
+    expTrack.style.transform = `translateX(-${curSlide * slideW}%)`;
+    
+    // Update dots
+    dots.forEach((d,i) => {
+      d.style.display = i <= maxSlide ? 'block' : 'none';
+      d.classList.toggle('on', i === curSlide);
+    });
+  }
+
+  function goToSlide(n) {
+    const maxSlide = Math.max(0, totalSlides - itemsPerView);
+    curSlide = Math.max(0, Math.min(n, maxSlide));
+    updateCar();
+  }
+
+  prevBtn.addEventListener('click', () => goToSlide(curSlide - 1));
+  nextBtn.addEventListener('click', () => goToSlide(curSlide + 1));
+  window.addEventListener('resize', updateCar);
+  updateCar();
+  
+  // Auto play
+  setInterval(() => {
+    const maxSlide = Math.max(0, totalSlides - itemsPerView);
+    if(curSlide < maxSlide) goToSlide(curSlide + 1);
+    else goToSlide(0);
+  }, 5000);
+}
 </script>
 </body>
 </html>
