@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Costa Áurea - Restaurante de Cocina Mediterránea en Puerto Santa Ana, Guayaquil.">
 <title>Costa Áurea | Cocina Mediterránea - Guayaquil</title>
+<link rel="icon" type="image/jpeg" href="imagenes/logo.jpg">
+<link rel="apple-touch-icon" href="imagenes/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
@@ -38,7 +40,11 @@ ul{list-style:none}
 /* PRELOADER */
 #pre{position:fixed;inset:0;background:var(--osc);z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .9s,visibility .9s}
 #pre.out{opacity:0;visibility:hidden}
-.pre-logo{font-family:var(--ft);font-size:clamp(2rem,6vw,4rem);color:var(--oro);letter-spacing:.35em;animation:pp 1.6s ease-in-out infinite}
+.pre-logo-wrap{position:relative;display:flex;align-items:center;justify-content:center}
+.pre-logo-wrap::before,.pre-logo-wrap::after{content:'';position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.55) 0%,rgba(201,168,76,0) 70%);z-index:0}
+.pre-logo-wrap::before{width:150%;height:150%;animation:preGlow 2.4s ease-in-out infinite}
+.pre-logo-wrap::after{width:150%;height:150%;animation:preRing 2.4s ease-out infinite}
+.pre-logo-img{position:relative;z-index:1;width:clamp(110px,18vw,160px);height:auto;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.45);animation:preEnter .9s cubic-bezier(.34,1.56,.64,1) both,preBreathe 2.4s ease-in-out .9s infinite}
 .pre-sub{font-family:var(--fs);font-size:.85rem;color:var(--arena);letter-spacing:.45em;margin-top:.4rem}
 .pre-bar{width:220px;height:2px;background:rgba(201,168,76,.18);margin-top:2.5rem;border-radius:2px;overflow:hidden}
 .pre-fill{height:100%;background:linear-gradient(90deg,var(--oro),var(--oro2));animation:pf 2.6s ease forwards}
@@ -46,7 +52,10 @@ ul{list-style:none}
 .pre-dots span{display:block;width:6px;height:6px;background:var(--oro);border-radius:50%;animation:pd 1.2s ease-in-out infinite}
 .pre-dots span:nth-child(2){animation-delay:.2s}
 .pre-dots span:nth-child(3){animation-delay:.4s}
-@keyframes pp{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes preEnter{0%{opacity:0;transform:scale(.5) rotate(-10deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes preBreathe{0%,100%{transform:scale(1);filter:drop-shadow(0 0 0 rgba(201,168,76,0))}50%{transform:scale(1.035);filter:drop-shadow(0 0 20px rgba(201,168,76,.6))}}
+@keyframes preGlow{0%,100%{opacity:.45;transform:scale(.8)}50%{opacity:.9;transform:scale(1.05)}}
+@keyframes preRing{0%{opacity:.6;transform:scale(.8)}100%{opacity:0;transform:scale(1.5)}}
 @keyframes pf{from{width:0}to{width:100%}}
 @keyframes pd{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-8px);opacity:1}}
 
@@ -679,8 +688,7 @@ footer{background:var(--osc);padding:3.5rem 0 1.5rem}
 
 <!-- PRELOADER -->
 <div id="pre">
-  <div class="pre-logo">COSTA ÁUREA</div>
-  <div class="pre-sub">✦ &nbsp; COCINA MEDITERRÁNEA &nbsp; ✦</div>
+  <div class="pre-logo-wrap"><img src="imagenes/logo.jpg" alt="Costa Áurea" class="pre-logo-img"></div>
   <div class="pre-bar"><div class="pre-fill"></div></div>
   <div class="pre-dots"><span></span><span></span><span></span></div>
 </div>
@@ -1218,6 +1226,50 @@ footer{background:var(--osc);padding:3.5rem 0 1.5rem}
                 <i class="fas fa-star"></i>
                 <span>El Encanto</span>
                 <small>La belleza de lo simple</small>
+              </div>
+            </div>
+          </div>
+          <!-- Slide 7 -->
+          <div class="exp-slide" onclick="openLb('imagenes/cocina.jpg')">
+            <img src="imagenes/cocina.jpg" alt="Nuestra Cocina">
+            <div class="exp-slide-ov">
+              <div class="exp-slide-caption">
+                <i class="fas fa-utensils"></i>
+                <span>Nuestra Cocina</span>
+                <small>Pasión en cada plato</small>
+              </div>
+            </div>
+          </div>
+          <!-- Slide 8 -->
+          <div class="exp-slide" onclick="openLb('imagenes/interior-salon.jpg')">
+            <img src="imagenes/interior-salon.jpg" alt="Eventos y Salón">
+            <div class="exp-slide-ov">
+              <div class="exp-slide-caption">
+                <i class="fas fa-champagne-glasses"></i>
+                <span>Eventos & Salón</span>
+                <small>Espacios para celebrar</small>
+              </div>
+            </div>
+          </div>
+          <!-- Slide 9 -->
+          <div class="exp-slide" onclick="openLb('imagenes/recepcion-pagos.jpg')">
+            <img src="imagenes/recepcion-pagos.jpg" alt="Bienvenida Cálida">
+            <div class="exp-slide-ov">
+              <div class="exp-slide-caption">
+                <i class="fas fa-concierge-bell"></i>
+                <span>Bienvenida Cálida</span>
+                <small>Atención de principio a fin</small>
+              </div>
+            </div>
+          </div>
+          <!-- Slide 10 -->
+          <div class="exp-slide" onclick="openLb('imagenes/detalles-banos.jpg')">
+            <img src="imagenes/detalles-banos.jpg" alt="Detalles con Estilo">
+            <div class="exp-slide-ov">
+              <div class="exp-slide-caption">
+                <i class="fas fa-spa"></i>
+                <span>Detalles con Estilo</span>
+                <small>Elegancia en cada rincón</small>
               </div>
             </div>
           </div>
